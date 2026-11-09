@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: staticColors.void,
+  themeColor: staticColors.paper,
   // No user-scalable=no — the page must zoom to 200% (§13).
   width: 'device-width',
   initialScale: 1,

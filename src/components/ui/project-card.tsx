@@ -20,7 +20,7 @@ type ProjectCardProps = {
 }
 
 const chip =
-  'type-label inline-flex h-[1.375rem] items-center rounded-card bg-void/50 px-1.5 text-fg backdrop-blur-sm'
+  'type-label inline-flex h-[1.375rem] items-center rounded-card bg-surface/85 px-1.5 text-fg backdrop-blur-sm'
 
 /**
  * Brief §8.3. The whole card is ONE <Link>, so there is exactly one tab stop

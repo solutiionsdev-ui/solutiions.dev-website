@@ -34,6 +34,12 @@ export type Service = {
   title: string
   description: string
   slug: string
+  /** How it's billed. Shown on the right of the accordion row. */
+  pricing: 'Fixed quote' | 'Monthly'
+  /** "What's included" column. */
+  includes: string[]
+  /** "You can count on" column. Only promises the studio already makes. */
+  commitments: string[]
 }
 
 export type TechLogo =

@@ -1,30 +1,31 @@
-import { Archivo, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { Archivo, IBM_Plex_Sans_Arabic, JetBrains_Mono } from 'next/font/google'
 
 /**
- * Three families, each with exactly one job (brief §5). Mixing jobs is the
- * fastest way to lose the look.
+ * Three families, each with one job:
+ *   • Archivo — headings AND body. One voice; headings use the width axis.
+ *   • JetBrains Mono — labels, meta and anything that reads as "spec".
+ *   • IBM Plex Sans Arabic — Arabic text (tagline, the hero's RTL demo).
  *
- * DEVIATION FROM BRIEF §5: the brief's snippet passes `weight: 'variable'`.
- * next/font/google rejects that — a variable font is declared by OMITTING
- * `weight` entirely, which loads the full 100–900 range. Passing `axes`
- * additionally requires `weight` to be absent. The width axis is the whole
- * point of the design, so this had to be corrected rather than dropped.
+ * Archivo is a variable font: declaring `axes` (and omitting `weight`) loads
+ * the full 100–900 weight range plus the width axis the headings depend on.
  */
 export const archivo = Archivo({
   subsets: ['latin'],
-  axes: ['wdth'], // the width axis is what produces the condensed poster look
+  axes: ['wdth'],
   variable: '--font-archivo',
-  // NOT 'swap': adjustFontFallback cannot metric-match a font-stretch:78% face,
-  // so a clamp(3rem, 9.2vw, 8.25rem) headline visibly reflows on swap — exactly
-  // the CLS this design cannot afford.
+  // NOT 'swap': adjustFontFallback cannot metric-match a font-stretch face, so
+  // a large headline would visibly reflow on swap.
   display: 'optional',
   preload: true,
 })
 
-export const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
+export const plexArabic = IBM_Plex_Sans_Arabic({
+  subsets: ['arabic'],
+  weight: ['400', '500', '600'],
+  variable: '--font-plex-arabic',
   display: 'swap',
+  // Arabic shows below the fold or after a toggle — don't compete with Archivo.
+  preload: false,
 })
 
 export const jetbrainsMono = JetBrains_Mono({
@@ -34,4 +35,4 @@ export const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
-export const fontVariables = `${archivo.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`
+export const fontVariables = `${archivo.variable} ${plexArabic.variable} ${jetbrainsMono.variable}`

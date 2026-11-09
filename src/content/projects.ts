@@ -11,7 +11,7 @@ export const projects: Project[] = [
   {
     slug: 'fintech-dashboard',
     index: 1,
-    title: 'FINTECH DASHBOARD',
+    title: 'Fintech Dashboard',
     category: 'Web Application',
     year: 2024,
     role: ['Product design', 'Front-end', 'Design system'],
@@ -59,7 +59,7 @@ export const projects: Project[] = [
   {
     slug: 'noire-ecommerce',
     index: 2,
-    title: 'NOIRÉ — ECOMMERCE',
+    title: 'Noiré',
     category: 'Shopify / Custom Theme',
     year: 2024,
     role: ['Art direction', 'Custom theme', 'Performance'],
@@ -107,7 +107,7 @@ export const projects: Project[] = [
   {
     slug: 'analytics-platform',
     index: 3,
-    title: 'ANALYTICS PLATFORM',
+    title: 'Analytics Platform',
     category: 'SaaS / Dashboard',
     year: 2023,
     role: ['Front-end architecture', 'Data visualisation', 'Design system'],
@@ -155,7 +155,7 @@ export const projects: Project[] = [
   {
     slug: 'atlas-logistics',
     index: 4,
-    title: 'ATLAS LOGISTICS',
+    title: 'Atlas Logistics',
     category: 'Web Application',
     year: 2023,
     role: ['Front-end', 'Mapping', 'Offline support'],
@@ -182,7 +182,7 @@ export const projects: Project[] = [
   {
     slug: 'meridian-health',
     index: 5,
-    title: 'MERIDIAN HEALTH',
+    title: 'Meridian Health',
     category: 'Marketing / CMS',
     year: 2023,
     role: ['Design', 'Front-end', 'Accessibility'],
@@ -209,7 +209,7 @@ export const projects: Project[] = [
   {
     slug: 'kiln-studio',
     index: 6,
-    title: 'KILN STUDIO',
+    title: 'Kiln Studio',
     category: 'Portfolio / Editorial',
     year: 2022,
     role: ['Art direction', 'Front-end', 'Motion'],

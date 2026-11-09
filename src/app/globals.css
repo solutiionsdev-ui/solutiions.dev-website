@@ -1,132 +1,148 @@
 @import 'tailwindcss';
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DESIGN TOKENS — brief §4.
-   These are the ONLY colors, sizes and durations permitted in the codebase.
-   Two sanctioned exceptions live at the bottom of this file: the 1.6s
-   scroll-rail pulse (§8.2) and the 28s tech marquee (§8.5).
+   DESIGN TOKENS
+   A light "spec sheet": paper surfaces, near-black ink, one turquoise accent,
+   and a dark night band (studio, contact, footer) that re-themes everything
+   inside it through `theme-night`.
+
+   Token NAMES are unchanged from v1, so every page and component that reads
+   them re-themes from this file alone. Only the values moved.
+
+   `static` makes Tailwind emit every variable, used or not, so the night band
+   and the mock palettes can reference them from plain CSS.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-@theme {
-  /* ---- Surfaces (darkest → lightest) ---- */
-  --color-void: #000000; /* page surround, outside the content frame */
-  --color-surface: #0a0a0a; /* default section band */
-  --color-surface-2: #101012; /* cards, tech tiles */
-  --color-surface-3: #16161a; /* hover state of cards */
+@theme static {
+  /* ---- Surfaces (lightest → darkest) ---- */
+  --color-surface: #f4f5f3; /* paper: the page */
+  --color-surface-2: #e8ece9; /* pills, tiles, inputs */
+  --color-surface-3: #dce2de; /* hover state of pills and tiles */
+  --color-void: #0b1211; /* scrims behind dialogs */
 
   /* ---- Foreground ---- */
-  --color-fg: #fafafa; /* display type, headings        18.97:1 on surface */
-  --color-fg-secondary: #e4e4e7; /* strong body                   15.60:1 */
-  --color-fg-muted: #a1a1aa; /* body copy, descriptions        7.72:1 */
-  --color-fg-subtle: #8e8e96; /* smallest legible text          6.09:1 */
-  /* NEVER use #71717A or darker for text — 4.10:1 fails AA at these sizes. */
+  --color-fg: #111614; /* ink: display type, headings         17.6:1 on paper */
+  --color-fg-secondary: #2b3330; /* strong body                          12.4:1 */
+  --color-fg-muted: #434b47; /* body copy                              8.6:1 */
+  --color-fg-subtle: #5f6763; /* smallest legible text, labels       5.2:1 */
 
   /* ---- Lines ---- */
-  --color-hairline: #232326; /* decorative dividers, card frames */
-  --color-hairline-lit: #2e2e33; /* hairline on hover */
-  --color-border: #71717a; /* INTERACTIVE boundaries (buttons, inputs)  4.10:1 ≥ 3:1 ✓ */
+  --color-hairline: #d2d8d4; /* decorative dividers */
+  --color-hairline-lit: #b4beb9; /* divider on hover */
+  --color-border: #7a847f; /* INTERACTIVE boundaries (inputs)    3.5:1 ≥ 3:1 */
 
-  /* ---- Accent = inversion. There is no chromatic accent. ---- */
-  --color-accent: #ffffff;
-  --color-on-accent: #0a0a0a; /* 19.80:1 ✓ */
-  --color-ring: #ffffff;
+  /* ---- Accent: Gulf turquoise ---- */
+  --color-accent: #0a7570; /* links, primary buttons             5.1:1 on paper */
+  --color-accent-deep: #075955; /* hover */
+  --color-on-accent: #ffffff; /* 5.5:1 on accent */
+  --color-ring: #0a7570;
 
   /* ---- Feedback ---- */
-  --color-success: #34d399;
-  --color-danger: #f87171; /* lightened from #EF4444 for AA on near-black */
+  --color-success: #1f7a4d;
+  --color-danger: #b42318;
 
-  /* ---- Width axis (no Tailwind namespace — use font-stretch-(--stretch-*)) ---- */
-  --stretch-display: 78%; /* H1, H2 */
-  --stretch-h3: 85%; /* H3, wordmark */
+  /* ---- Night band (applied through the theme-night utility) ---- */
+  --color-night: #0e1a18;
+  --color-night-2: #172622;
+  --color-night-3: #1f302b;
+  --color-night-rule: #2a3b36;
+  --color-night-border: #5e7570;
+  --color-night-fg: #e6eeeb; /* 15.9:1 on night */
+  --color-night-soft: #cfdcd8;
+  --color-night-mute: #9db0aa; /* 7.8:1 on night */
+  --color-mint: #4fd8c4; /* 10:1 on night */
+  --color-mint-2: #82e6d7;
+  --color-night-danger: #f59e8b;
 
-  /* ---- Type scale (see §5 for usage) ---- */
-  --text-label: 0.6875rem; /* 11px */
-  --text-label--line-height: 1.2;
-  --text-label--letter-spacing: 0.14em;
+  /* ---- Hero mock: a fictional Riyadh coffee roaster's brand ---- */
+  --color-mock-bg: #fbf7f0;
+  --color-mock-card: #ffffff;
+  --color-mock-sand: #ead9c0;
+  --color-mock-espresso: #3a2a21;
+  --color-mock-crema: #c9a27a;
+  --color-mock-cardamom: #335a45;
+  --color-mock-mint: #e3f1e8;
+  --color-mock-mint-ink: #24563a;
+  --color-mock-text: #2b211b;
+  --color-mock-mute: #7a6a5e;
+  --color-mock-bean-1: #c98e5a;
+  --color-mock-bean-2: #8a5a3c;
+  --color-mock-bean-3: #5a3a2a;
+  --color-mock-shadow: rgb(17 22 20 / 0.32);
+  --color-mock-grid: #c3ccc8;
+
+  /* ---- Width axis (Archivo variable, wdth 62–125) ---- */
+  --stretch-display: 92%; /* headings */
+  --stretch-h3: 92%;
+  --stretch-wordmark: 74%; /* the condensed SOLUTIIONS.DEV wordmark */
+
+  /* ---- Type scale ---- */
+  --text-label: 0.75rem; /* 12px mono labels */
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.06em;
   --text-xs: 0.75rem; /* 12px */
-  --text-sm: 0.8125rem; /* 13px */
-  --text-base: 0.9375rem; /* 15px */
-  --text-lg: 1.125rem; /* 18px */
-  --text-card: 1.0625rem; /* 17px  card + service titles */
-  --text-num: 1.75rem; /* 28px  section numerals 01–06 */
-  --text-h3: 2rem; /* 32px */
-  --text-h2: clamp(2.75rem, 6vw, 5rem);
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.1875rem; /* 19px */
+  --text-card: 1.0625rem; /* 17px card titles */
+  --text-num: 1.75rem; /* 28px */
+  --text-h3: clamp(1.5rem, 2.4vw, 2.125rem);
+  --text-h2: clamp(2.25rem, 4.6vw, 3.75rem);
+  --text-h1: clamp(2.35rem, 5vw, 4.75rem);
+  --text-statement: clamp(1.75rem, 3.6vw, 3.25rem);
 
-  /* DEVIATION FROM BRIEF §4: the brief specifies clamp(3rem, 9.2vw, 8.25rem).
-     That cannot coexist with §8.2's `col-span-6` hero text block. Measured at
-     1440px the column is 632px, but the authored line "DIGITAL EXPERIENCES"
-     needs 1218px at 132px type — so the headline wrapped to five visual lines,
-     contradicting §5's "line breaks are authored, not automatic".
-     Sized instead so the longest authored line fits its column at every width.
-     Below lg the hero is a single column, so the headline gets more room there;
-     the lg override lives just under this block. */
-  --text-h1: clamp(2.125rem, 9vw, 4.5rem);
-
-  /* ---- Leading & tracking, tokenised so components carry no raw values ---- */
-  --leading-display: 0.86; /* H1 — reads too tight alone, correct in composition */
-  --leading-h2: 0.88;
+  /* ---- Leading & tracking ---- */
+  --leading-display: 1;
+  --leading-h2: 1;
   --leading-flat: 1;
   --leading-title: 1.25;
-  --leading-body: 1.6;
-  --tracking-display: -0.02em;
-  --tracking-h3: -0.01em;
-  --tracking-title: 0.02em;
-  --tracking-button: 0.1em;
-  --tracking-nav: 0.12em;
-  --tracking-label: 0.14em;
+  --leading-body: 1.55;
+  --tracking-display: -0.025em;
+  --tracking-h2: -0.02em;
+  --tracking-h3: -0.015em;
+  --tracking-title: 0;
+  --tracking-button: 0.01em;
+  --tracking-nav: 0;
+  --tracking-label: 0.06em;
   --tracking-rail: 0.18em;
 
-  /* ---- Spacing (density 4/10 — marketing rhythm) ---- */
+  /* ---- Spacing ---- */
   /* MUST be declared explicitly. Tailwind v4 builds every numeric spacing
      utility as calc(var(--spacing) * n); declaring named --spacing-* keys
      below replaces the namespace and drops this base value, which silently
-     zeroes p-4, gap-5, h-8, size-11 and every other numeric utility on the
-     site. Verified in-browser: without this line h-8 computes to 0px. */
+     zeroes p-4, gap-5, h-8, size-11 and every other numeric utility. */
   --spacing: 0.25rem;
 
-  --spacing-frame: 0.75rem; /* inset of the content frame from viewport */
-  --spacing-gutter: 1.5rem; /* mobile horizontal padding */
-  --spacing-gutter-lg: 3.25rem;
-  --spacing-band: 5rem; /* section vertical padding, mobile */
+  --spacing-frame: 0.75rem;
+  --spacing-gutter: 1.25rem; /* side gutter, mobile */
+  --spacing-gutter-lg: 2rem;
+  --spacing-band: 4.5rem; /* section vertical padding, mobile */
   --spacing-band-lg: 7rem; /* section vertical padding, desktop */
-  --spacing-nav: 4rem; /* sticky header height, mobile */
-  --spacing-nav-lg: 4.5rem; /* sticky header height, desktop */
-  --spacing-anchor: 5rem; /* scroll-margin-top = nav height + frame inset */
-  --spacing-anchor-lg: 6rem;
+  --spacing-nav: 3.75rem; /* sticky header height */
+  --spacing-nav-lg: 3.75rem;
+  --spacing-anchor: 4.5rem; /* scroll-margin-top = nav height + breathing room */
+  --spacing-anchor-lg: 4.5rem;
   --spacing-shell: 90rem; /* 1440px max content width */
-  --spacing-rail: 3.5rem; /* 56px scroll rail */
-  --spacing-control: 2.5rem; /* 40px circular arrow button */
+  --spacing-rail: 3.5rem;
+  --spacing-control: 2.5rem;
 
   /* ---- Geometry ---- */
-  --radius-frame: 0.5rem;
-  --radius-card: 0.25rem;
+  --radius-frame: 0.75rem;
+  --radius-card: 0.375rem;
   --radius-pill: 9999px;
 
   /* ---- Motion ---- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
-  --dur-fast: 150ms; /* micro state changes */
-  --dur-base: 250ms; /* hover / focus transitions */
-  --dur-sheet: 300ms; /* mobile nav sheet */
-  --dur-cross: 400ms; /* poster → canvas cross-fade */
-  --dur-band: 500ms; /* band stagger reveal */
-  --dur-slow: 450ms; /* grid reveal */
-  --dur-reveal: 600ms; /* band + hero reveal */
-  --dur-draw: 900ms; /* process connector line */
-}
-
-/* At lg the hero splits into a 6/6 grid, so the headline's available width
-   roughly halves. The step down at the breakpoint is deliberate: it tracks a
-   real change in the space the type has to live in. See the note on --text-h1. */
-@media (min-width: 1024px) {
-  :root {
-    /* The 6-col text block measures roughly (100vw / 2 − 81px), and the longest
-       authored line sets type at ~9.23× its font-size. 1024px is the binding
-       case: a 424px column allows at most ~45.9px, i.e. 4.48vw. 4.4vw keeps a
-       margin, and the 4.125rem cap holds the line inside the column once the
-       shell stops growing at its 1440px max-width. */
-    --text-h1: clamp(2.5rem, 4.4vw, 4.125rem);
-  }
+  --ease-build: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-sheet: 300ms;
+  --dur-cross: 400ms;
+  --dur-band: 500ms;
+  --dur-slow: 450ms;
+  --dur-reveal: 600ms;
+  --dur-draw: 900ms;
 }
 
 /* Font families MUST live in a separate `@theme inline` block. next/font applies
@@ -134,8 +150,9 @@
    at :root where it does not yet exist, and every font utility silently falls back. */
 @theme inline {
   --font-display: var(--font-archivo); /* Archivo variable: wght 100–900, wdth 62–125 */
-  --font-body: var(--font-space-grotesk);
+  --font-body: var(--font-archivo);
   --font-mono: var(--font-jetbrains-mono);
+  --font-arabic: var(--font-plex-arabic);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -148,7 +165,7 @@
   }
 
   body {
-    background-color: var(--color-void);
+    background-color: var(--color-surface);
     color: var(--color-fg);
     font-family: var(--font-body);
     font-size: var(--text-base);
@@ -179,67 +196,77 @@
     outline-offset: 2px;
   }
 
-  /* Headings inherit the display family; size/weight come from type-* roles. */
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
   }
+
+  [lang='ar'] {
+    font-family: var(--font-arabic), var(--font-body);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TYPE ROLE UTILITIES — brief §5.
-   One utility per row of the type table, so no component re-states a
-   family/weight/width/size/case combination and they cannot drift apart.
+   TYPE ROLE UTILITIES
+   One utility per role, so no component re-states a family/weight/width/size
+   combination and they cannot drift apart.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @utility type-h1 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 420;
   font-stretch: var(--stretch-display);
   font-size: var(--text-h1);
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 @utility type-h2 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 420;
   font-stretch: var(--stretch-display);
   font-size: var(--text-h2);
   line-height: var(--leading-h2);
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
+  letter-spacing: var(--tracking-h2);
   text-wrap: balance;
 }
 
 @utility type-h2-secondary {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 420;
   font-stretch: var(--stretch-h3);
   font-size: var(--text-h3);
-  line-height: var(--leading-flat);
+  line-height: 1.1;
   letter-spacing: var(--tracking-h3);
-  text-transform: uppercase;
   text-wrap: balance;
 }
 
 @utility type-h3 {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 420;
   font-stretch: var(--stretch-h3);
   font-size: var(--text-h3);
-  line-height: var(--leading-flat);
+  line-height: 1.1;
   letter-spacing: var(--tracking-h3);
-  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+@utility type-statement {
+  font-family: var(--font-display);
+  font-weight: 420;
+  font-stretch: var(--stretch-display);
+  font-size: var(--text-statement);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-h2);
   text-wrap: balance;
 }
 
 @utility type-numeral {
   font-family: var(--font-display);
   font-weight: 500;
-  font-stretch: 100%;
+  font-stretch: 84%;
   font-size: var(--text-num);
   line-height: var(--leading-flat);
   letter-spacing: 0;
@@ -252,7 +279,6 @@
   font-size: var(--text-card);
   line-height: var(--leading-title);
   letter-spacing: var(--tracking-title);
-  text-transform: uppercase;
 }
 
 @utility type-body {
@@ -272,39 +298,44 @@
 }
 
 @utility type-nav {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-weight: 500;
-  font-size: var(--text-xs);
+  font-size: 0.8125rem;
   line-height: var(--leading-flat);
   letter-spacing: var(--tracking-nav);
-  text-transform: uppercase;
 }
 
 @utility type-label {
   font-family: var(--font-mono);
   font-weight: 500;
   font-size: var(--text-label);
-  line-height: 1.2;
+  line-height: 1.3;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
 }
 
-@utility type-button {
+@utility type-mono {
   font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: var(--text-xs);
+  font-weight: 400;
+  font-size: var(--text-label);
+  line-height: 1.5;
+}
+
+@utility type-button {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8125rem;
   line-height: var(--leading-flat);
   letter-spacing: var(--tracking-button);
-  text-transform: uppercase;
 }
 
 @utility type-wordmark {
   font-family: var(--font-display);
   font-weight: 800;
-  font-stretch: var(--stretch-h3);
+  font-stretch: var(--stretch-wordmark);
   font-size: var(--text-base);
   line-height: var(--leading-flat);
-  letter-spacing: var(--tracking-title);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
@@ -312,20 +343,53 @@
    LAYOUT UTILITIES
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Horizontal rhythm shared by every band. Max width 1440px, centered. */
+/* Horizontal rhythm shared by every band. Max width 1440px, centred, and the
+   gutter also clears a phone's side safe-area in landscape. */
 @utility shell {
   margin-inline: auto;
   width: 100%;
   max-width: var(--spacing-shell);
-  padding-inline: var(--spacing-gutter);
+  padding-left: max(var(--spacing-gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--spacing-gutter), env(safe-area-inset-right, 0px));
 
   @media (min-width: 1024px) {
-    padding-inline: var(--spacing-gutter-lg);
+    padding-left: max(var(--spacing-gutter-lg), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--spacing-gutter-lg), env(safe-area-inset-right, 0px));
   }
 }
 
+/* The dark band. Re-points the semantic tokens for everything inside it, so
+   shared components (the contact form, buttons, labels) render correctly on
+   night without a second set of classes. */
+@utility theme-night {
+  --color-surface: var(--color-night);
+  --color-surface-2: var(--color-night-2);
+  --color-surface-3: var(--color-night-3);
+  --color-fg: var(--color-night-fg);
+  --color-fg-secondary: var(--color-night-soft);
+  --color-fg-muted: var(--color-night-mute);
+  --color-fg-subtle: var(--color-night-mute);
+  --color-hairline: var(--color-night-rule);
+  --color-hairline-lit: var(--color-night-border);
+  --color-border: var(--color-night-border);
+  --color-accent: var(--color-mint);
+  --color-accent-deep: var(--color-mint-2);
+  --color-on-accent: var(--color-night);
+  --color-ring: var(--color-mint);
+  --color-success: var(--color-mint);
+  --color-danger: var(--color-night-danger);
+  background-color: var(--color-night);
+  color: var(--color-night-fg);
+  color-scheme: dark;
+}
+
+/* Faint crosshair grid behind the hero, the studio's drafting table. */
+@utility bg-crosshair {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpath d='M28 24v8M24 28h8' stroke='%23BCC6C1' stroke-width='1'/%3E%3C/svg%3E");
+}
+
 /* ≥44×44px hit area on a control whose visual is smaller — pad with a
-   pseudo-element so the visual box is never inflated (§7). */
+   pseudo-element so the visual box is never inflated. */
 @utility hit-area {
   position: relative;
 
@@ -341,11 +405,289 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   AMBIENT LOOPS — the two sanctioned keyframe exceptions (§4).
-   Both are local to their component and both stop under reduced motion.
+   SIGNATURE 1 — the hero build mock (components/home/build-mock.tsx).
+   One storefront, two states: `wire` (dashed outlines + mono labels) and
+   `built` (filled). Blocks keep their size in both states, so nothing reflows.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* §8.2 — a 12px lit segment travelling down the 56px scroll rail, 1.6s loop. */
+@layer components {
+  .bm-frame {
+    overflow: hidden;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-frame);
+    background: var(--color-mock-card);
+    box-shadow:
+      0 1px 0 var(--color-hairline),
+      0 28px 48px -36px var(--color-mock-shadow);
+  }
+
+  .bm-stage {
+    padding: 0.75rem;
+    background-color: var(--color-mock-bg);
+    transition: background-color 0.5s var(--ease-build);
+  }
+
+  .bm[data-state='wire'] .bm-stage {
+    background-color: var(--color-surface);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 10v4M10 12h4' stroke='%23C3CCC8' stroke-width='1'/%3E%3C/svg%3E");
+  }
+
+  .bm-site {
+    display: grid;
+    gap: 0.625rem;
+    color: var(--color-mock-text);
+    font-family: var(--font-body);
+    transition: opacity 0.22s;
+  }
+
+  .bm-site[dir='rtl'] {
+    font-family: var(--font-arabic), var(--font-body);
+  }
+
+  .bm-site.is-swapping {
+    opacity: 0;
+  }
+
+  .bm-b {
+    position: relative;
+    min-width: 0;
+    border-radius: 0.5rem;
+    background-color: var(--bc, var(--color-mock-card));
+    outline: 1px dashed transparent;
+    outline-offset: -1px;
+    transition:
+      background-color 0.5s var(--ease-build),
+      outline-color 0.3s;
+  }
+
+  .bm-b > * {
+    transition: opacity 0.45s var(--ease-build) calc(var(--i, 0) * 70ms + 120ms);
+  }
+
+  .bm-b::before {
+    content: attr(data-w);
+    position: absolute;
+    top: 0.45rem;
+    inset-inline-start: 0.55rem;
+    direction: ltr;
+    color: var(--color-accent);
+    font: 500 0.65625rem/1 var(--font-mono);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+
+  .bm[data-state='wire'] .bm-b {
+    background-color: transparent;
+    outline-color: var(--color-accent);
+  }
+
+  .bm[data-state='wire'] .bm-b > * {
+    opacity: 0;
+    transition-delay: 0s;
+  }
+
+  .bm[data-state='wire'] .bm-b::before {
+    opacity: 1;
+  }
+
+  .bm-cup {
+    width: 66%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      var(--color-mock-espresso) 0 42%,
+      var(--color-mock-crema) 43% 49%,
+      var(--color-mock-card) 50% 66%,
+      var(--color-mock-sand) 67% 100%
+    );
+    box-shadow: 0 18px 30px -12px var(--color-mock-shadow);
+  }
+
+  .bm-bean {
+    aspect-ratio: 4 / 3;
+    border-radius: 0.3rem;
+    background:
+      radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.28), transparent 60%),
+      var(--bean);
+  }
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     SIGNATURE 2 — case study media (components/home/case-media.tsx).
+     Images and drawn mocks start as a blueprint and build on scroll; hovering
+     a card shows the blueprint again.
+     ═════════════════════════════════════════════════════════════════════════ */
+
+  .mk {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-surface-2);
+  }
+
+  .mk > svg,
+  .mk > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .mk > img {
+    object-fit: cover;
+    object-position: top;
+    transition:
+      opacity 0.6s var(--ease-build),
+      filter 0.6s var(--ease-build);
+  }
+
+  .mk-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--color-mock-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-mock-grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .mk-frame {
+    position: absolute;
+    inset: 0.75rem;
+    border: 1px dashed var(--color-accent);
+    border-radius: 0.25rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .mk-tag {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-accent);
+    font: 500 0.65625rem/1 var(--font-mono);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .mk[data-state='wire'] .mk-tag {
+    opacity: 1;
+  }
+
+  /* Image media: the screenshot fades back behind a drafting grid. */
+  .mk[data-kind='image'][data-state='wire'] > img {
+    opacity: 0.32;
+    filter: grayscale(1) contrast(0.9);
+  }
+
+  .mk[data-kind='image'][data-state='wire'] .mk-grid {
+    opacity: 0.55;
+  }
+
+  .mk[data-kind='image'][data-state='wire'] .mk-frame {
+    opacity: 1;
+  }
+
+  /* Drawn mocks: every shape becomes a dashed outline. */
+  .mk .bg {
+    fill: var(--c);
+    transition: fill 0.6s var(--ease-build);
+  }
+
+  .mk .gridl {
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .mk .f {
+    fill: var(--c);
+    stroke: transparent;
+    stroke-width: 1.25px;
+    vector-effect: non-scaling-stroke;
+    transition:
+      fill 0.55s var(--ease-build) calc(var(--d, 0) * 1ms),
+      stroke 0.3s;
+  }
+
+  .mk .l {
+    fill: none;
+    stroke: var(--c);
+    transition: stroke 0.5s var(--ease-build);
+  }
+
+  .mk[data-state='wire'] .bg {
+    fill: var(--color-surface);
+  }
+
+  .mk[data-state='wire'] .gridl {
+    opacity: 1;
+  }
+
+  .mk[data-state='wire'] .f {
+    fill: transparent;
+    stroke: var(--color-accent);
+    stroke-dasharray: 5 5;
+    transition-delay: 0s;
+  }
+
+  .mk[data-state='wire'] .l {
+    stroke: var(--color-accent);
+    stroke-width: 1.25px;
+    stroke-dasharray: 5 5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Services accordion: the plus turns into a cross when open. */
+  .svc-plus {
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+    transition: transform var(--dur-sheet) var(--ease-out-quart);
+  }
+
+  .svc-plus::before,
+  .svc-plus::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--color-fg);
+    transform: translate(-50%, -50%);
+  }
+
+  .svc-plus::before {
+    width: 1rem;
+    height: 1.5px;
+  }
+
+  .svc-plus::after {
+    width: 1.5px;
+    height: 1rem;
+  }
+
+  details[open] > summary .svc-plus {
+    transform: rotate(45deg);
+  }
+
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AMBIENT LOOPS — local to their component, and both stop under reduced motion.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 @keyframes rail-pulse {
   0% {
     transform: translateY(-0.75rem);
@@ -364,7 +706,6 @@
   animation: rail-pulse 1.6s var(--ease-out-quart) infinite;
 }
 
-/* §8.5 — duplicated marquee track, translateX(-50%), 28s linear. */
 @keyframes marquee-track {
   from {
     transform: translateX(0);
@@ -382,5 +723,13 @@
   .animate-rail-pulse,
   .animate-marquee {
     animation: none !important;
+  }
+
+  .bm *,
+  .bm *::before,
+  .mk,
+  .mk * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 }

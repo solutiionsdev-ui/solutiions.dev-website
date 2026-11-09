@@ -63,7 +63,7 @@ const industryBySlug: Record<string, string> = {
 const liveWork: PortfolioItem[] = [
   {
     slug: 'driver-website',
-    title: 'DRIVER SITE',
+    title: 'Driver Site',
     type: 'Website',
     industry: 'Sports',
     cover: {
@@ -82,7 +82,7 @@ const liveWork: PortfolioItem[] = [
   },
   {
     slug: 'clothing-store',
-    title: 'CLOTHING STORE',
+    title: 'Clothing Store',
     type: 'E-commerce',
     industry: 'Fashion / Retail',
     cover: {
@@ -101,7 +101,7 @@ const liveWork: PortfolioItem[] = [
   },
   {
     slug: 'coffee-shop',
-    title: 'COFFEE SHOP',
+    title: 'Coffee Shop',
     type: 'Website',
     industry: 'Hospitality',
     cover: {

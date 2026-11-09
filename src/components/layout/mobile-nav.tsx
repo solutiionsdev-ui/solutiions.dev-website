@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
+import { DomainMark } from '@/components/layout/domain-mark'
 import { Button } from '@/components/ui/button'
-import { navItems, site } from '@/content/site'
+import { ctaItem, navItems } from '@/content/site'
 import { cn } from '@/lib/cn'
 
 /**
@@ -98,7 +99,9 @@ export function MobileNav({
       className="bg-surface fixed inset-0 z-90 flex flex-col lg:hidden"
     >
       <div className="h-nav px-gutter flex shrink-0 items-center justify-between">
-        <span className="type-wordmark text-fg">{site.wordmark}</span>
+        <span className="text-fg">
+          <DomainMark />
+        </span>
         <button
           type="button"
           onClick={onClose}
@@ -121,7 +124,7 @@ export function MobileNav({
                   onClick={onClose}
                   aria-current={isActive ? 'true' : undefined}
                   className={cn(
-                    'type-nav focus-visible:outline-ring flex h-12 cursor-pointer items-center transition-colors duration-(--dur-base) ease-(--ease-out-quart) focus-visible:outline-2 focus-visible:outline-offset-2',
+                    'type-h2-secondary focus-visible:outline-ring flex h-16 cursor-pointer items-center transition-colors duration-(--dur-base) ease-(--ease-out-quart) focus-visible:outline-2 focus-visible:outline-offset-2',
                     isActive ? 'text-fg' : 'text-fg-subtle hover:text-fg',
                   )}
                 >
@@ -132,8 +135,8 @@ export function MobileNav({
           })}
         </ul>
 
-        <Button href="/contact" variant="outline" size="md" className="mt-8 w-full">
-          LET&apos;S TALK
+        <Button href={ctaItem.href} variant="solid" size="md" className="mt-8 w-full">
+          {ctaItem.label}
         </Button>
       </nav>
     </div>

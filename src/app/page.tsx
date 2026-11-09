@@ -1,7 +1,6 @@
 import { About } from '@/components/sections/about'
 import { CtaBand } from '@/components/sections/cta-band'
 import { Hero } from '@/components/sections/hero'
-import { Process } from '@/components/sections/process'
 import { SelectedWork } from '@/components/sections/selected-work'
 import { Services } from '@/components/sections/services'
 import {
@@ -13,12 +12,10 @@ import {
 } from '@/lib/structured-data'
 
 /**
- * Brief §8. Section order is fixed:
- * Hero → Selected Work → What We Do → Process → About → CTA.
- *
- * This maps Portfolio Grid onto Scroll-Triggered Storytelling: the work grid is
- * the proof, services are the capability, process is the reassurance,
- * and the CTA is the climax.
+ * Section order: Hero → Case studies → Services (with the process) → Studio →
+ * Start a project. Proof first, then capability and reassurance, then the
+ * people and the ask. Studio, Start a project and the footer form one
+ * continuous night band.
  */
 export default function HomePage() {
   return (
@@ -43,7 +40,6 @@ export default function HomePage() {
       <Hero />
       <SelectedWork />
       <Services />
-      <Process />
       <About />
       <CtaBand />
     </>

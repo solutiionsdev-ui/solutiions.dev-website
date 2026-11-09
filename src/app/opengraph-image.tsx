@@ -3,19 +3,21 @@ import { ImageResponse } from 'next/og'
 import { loadOgFont } from '@/lib/og-font'
 import { staticColors } from '@/lib/static-colors'
 
+import { hero } from '@/content/home'
 import { site } from '@/content/site'
 
 /**
- * Brief §15.
- *
  * Runs on the NODE runtime, not edge. ImageResponse is backed by satori, which
  * needs explicit font buffers and fails on variable fonts — so this loads the
  * committed static instance (`Archivo-SemiCondensed-ExtraBold.ttf`, OFL, see
  * Archivo-OFL.txt) rather than the variable face used by the site itself.
+ *
+ * Night band colours, so the card reads as the site's footer and stands out in
+ * a light social feed.
  */
 export const runtime = 'nodejs'
 
-export const alt = `${site.name} — We build digital experiences that matter.`
+export const alt = `${site.name}: ${hero.lines.join(' ')}`
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -31,7 +33,7 @@ export default async function OpengraphImage() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          backgroundColor: staticColors.surface,
+          backgroundColor: staticColors.night,
           padding: '64px 72px',
           fontFamily: 'Archivo',
         }}
@@ -39,32 +41,28 @@ export default async function OpengraphImage() {
         <div
           style={{
             display: 'flex',
-            fontSize: 26,
-            letterSpacing: 2,
-            color: staticColors.fg,
-            textTransform: 'uppercase',
+            fontSize: 30,
+            letterSpacing: 1,
+            color: staticColors.nightFg,
           }}
         >
-          {site.wordmark}
+          <span>SOLUT</span>
+          <span style={{ color: staticColors.mint }}>II</span>
+          <span>ONS.DEV</span>
         </div>
 
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            // Sized so the longest authored line (DIGITAL EXPERIENCES) fits on
-            // one line at 1200px. The three-line break is authored, not automatic.
-            fontSize: 76,
-            lineHeight: 0.92,
+            fontSize: 68,
+            lineHeight: 1,
             letterSpacing: -1.5,
-            whiteSpace: 'nowrap',
-            color: staticColors.fg,
-            textTransform: 'uppercase',
+            color: staticColors.nightFg,
           }}
         >
-          <span>We build</span>
-          <span>digital experiences</span>
-          <span>that matter.</span>
+          <span>{hero.lines[0]}</span>
+          <span style={{ color: staticColors.mint }}>{hero.lines[1]}</span>
         </div>
 
         <div
@@ -72,13 +70,13 @@ export default async function OpengraphImage() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-end',
-            borderTop: `1px solid ${staticColors.hairline}`,
+            borderTop: `1px solid ${staticColors.nightRule}`,
             paddingTop: 28,
             fontSize: 22,
-            color: staticColors.fgMuted,
+            color: staticColors.nightMute,
           }}
         >
-          <span>Web development agency</span>
+          <span>Web development and AI studio</span>
           <span>{site.email}</span>
         </div>
       </div>

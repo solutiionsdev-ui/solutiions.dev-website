@@ -156,12 +156,12 @@ export function PortfolioGallery() {
                     imageClassName="transition-transform duration-(--dur-slow,600ms) ease-(--ease-out-quart) group-hover:scale-[1.04]"
                   />
                   {item.liveUrl ? (
-                    <span className="type-label rounded-pill bg-void/60 text-fg absolute right-3 bottom-3 inline-flex h-6 items-center gap-1.5 px-2.5 opacity-0 backdrop-blur-sm transition-opacity duration-(--dur-base) group-hover:opacity-100 group-focus-visible:opacity-100">
+                    <span className="type-label rounded-pill bg-surface/85 text-fg absolute right-3 bottom-3 inline-flex h-6 items-center gap-1.5 px-2.5 opacity-0 backdrop-blur-sm transition-opacity duration-(--dur-base) group-hover:opacity-100 group-focus-visible:opacity-100">
                       Open live preview
                     </span>
                   ) : null}
                   {item.isNew ? (
-                    <span className="type-label rounded-pill bg-void/60 text-fg absolute top-3 left-3 inline-flex h-6 items-center gap-1.5 px-2.5 backdrop-blur-sm">
+                    <span className="type-label rounded-pill bg-surface/85 text-fg absolute top-3 left-3 inline-flex h-6 items-center gap-1.5 px-2.5 backdrop-blur-sm">
                       <span aria-hidden="true" className="rounded-pill bg-danger size-1.5" />
                       New
                     </span>

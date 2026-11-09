@@ -5,21 +5,21 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { DomainMark } from '@/components/layout/domain-mark'
 import { MobileNav } from '@/components/layout/mobile-nav'
-import { Button } from '@/components/ui/button'
-import { navItems, navSectionIds, site } from '@/content/site'
+import { ctaItem, navItems, navSectionIds } from '@/content/site'
 import { cn } from '@/lib/cn'
 
+const pill =
+  'type-nav hit-area inline-flex h-8 cursor-pointer items-center rounded-pill px-3.5 transition-colors duration-(--dur-base) ease-(--ease-out-quart) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring'
+
 /**
- * Brief §8.1. Sticky at the frame inset, fully transparent at rest so the hero
- * reads as one composition, gaining a blurred surface only after 24px of
- * scroll.
+ * Sticky header: the url-style wordmark on the left, pill navigation on the
+ * right. Transparent at rest so the hero reads as one composition; after 24px
+ * of scroll it gains a paper background and a hairline.
  *
- * DEVIATION FROM BRIEF §8.1: the active-section highlight uses ONE
- * IntersectionObserver with six targets rather than one ScrollTrigger per
- * section. The constraint the brief states — "do not attach six independent
- * observers" — is satisfied either way, and this keeps GSAP out of the header's
- * chunk entirely, which matters for the §14 initial-JS budget.
+ * The active pill uses ONE IntersectionObserver over the homepage sections, so
+ * GSAP stays out of the header's chunk.
  */
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
@@ -30,8 +30,6 @@ export function SiteHeader() {
 
   const isHome = pathname === '/'
 
-  // Background engages after 24px. Passive listener, and it only ever flips a
-  // boolean, so there is no layout read in the scroll path.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
     onScroll()
@@ -39,12 +37,8 @@ export function SiteHeader() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // One observer, six targets.
   useEffect(() => {
-    if (!isHome) {
-      setActiveId(null)
-      return
-    }
+    if (!isHome) return
 
     const sections = navSectionIds
       .map((id) => document.getElementById(id))
@@ -74,69 +68,73 @@ export function SiteHeader() {
     toggleRef.current?.focus()
   }, [])
 
+  const currentId = isHome ? activeId : null
+
   return (
     <>
       <header
         className={cn(
-          'sm:top-frame sticky top-0 z-50',
-          // White header: flip the colour tokens locally so every child (wordmark,
-          // nav, button, menu icon) renders dark on white.
-          'bg-white [--color-border:#a1a1aa] [--color-fg-subtle:#52525b] [--color-fg:#0a0a0a] [--color-hairline:#e4e4e7] [--color-ring:#0a0a0a]',
-          'border-b transition-[border-color] duration-(--dur-base) ease-(--ease-out-quart)',
-          scrolled ? 'border-hairline' : 'border-transparent',
+          'sticky top-0 z-50 border-b transition-[border-color,background-color] duration-(--dur-base) ease-(--ease-out-quart)',
+          scrolled ? 'border-hairline bg-surface/90 backdrop-blur-md' : 'border-transparent',
         )}
       >
-        <div className="shell h-nav lg:h-nav-lg flex items-center justify-between gap-6">
+        <div className="shell h-nav flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="type-wordmark text-fg focus-visible:outline-ring cursor-pointer transition-opacity duration-(--dur-base) ease-(--ease-out-quart) hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
+            aria-label="Solutiions.dev home"
+            className="text-fg decoration-fg/60 hover:decoration-accent cursor-pointer underline decoration-1 underline-offset-4 transition-colors duration-(--dur-base) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
-            {site.wordmark}
+            <DomainMark />
           </Link>
 
-          <nav aria-label="Primary" className="hidden lg:block">
-            <ul className="flex items-center gap-9">
-              {navItems.map((item) => {
-                const id = item.href.split('#')[1] ?? null
-                const isActive = (Boolean(id) && id === activeId) || item.href === pathname
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      aria-current={isActive ? 'true' : undefined}
-                      className={cn(
-                        'type-nav focus-visible:outline-ring cursor-pointer transition-colors duration-(--dur-base) ease-(--ease-out-quart) focus-visible:outline-2 focus-visible:outline-offset-2',
-                        isActive ? 'text-fg' : 'text-fg-subtle hover:text-fg',
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </nav>
+          <div className="flex items-center gap-1.5">
+            <nav aria-label="Primary" className="hidden lg:block">
+              <ul className="flex items-center gap-1.5">
+                {navItems.map((item) => {
+                  const id = item.href.split('#')[1] ?? null
+                  const isActive = (Boolean(id) && id === currentId) || item.href === pathname
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        aria-current={isActive ? 'true' : undefined}
+                        className={cn(
+                          pill,
+                          isActive
+                            ? 'bg-surface-3 text-fg'
+                            : 'bg-surface-2 text-fg hover:bg-surface-3',
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
 
-          <div className="hidden lg:block">
-            <Button href="/contact" variant="outline" size="sm">
-              LET&apos;S TALK
-            </Button>
+            <Link
+              href={ctaItem.href}
+              className={cn(pill, 'bg-fg text-surface hover:bg-accent hover:text-on-accent')}
+            >
+              {ctaItem.label}
+            </Link>
+
+            <button
+              ref={toggleRef}
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-expanded={menuOpen}
+              aria-label="Open navigation"
+              className="text-fg -mr-2 flex size-11 cursor-pointer items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:hidden"
+            >
+              <Menu aria-hidden="true" strokeWidth={1.5} className="size-5" />
+            </button>
           </div>
-
-          <button
-            ref={toggleRef}
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            aria-expanded={menuOpen}
-            aria-label="Open navigation"
-            className="text-fg focus-visible:outline-ring -mr-2 flex size-11 cursor-pointer items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
-          >
-            <Menu aria-hidden="true" strokeWidth={1.5} className="size-5" />
-          </button>
         </div>
       </header>
 
-      <MobileNav open={menuOpen} onClose={closeMenu} activeId={activeId} />
+      <MobileNav open={menuOpen} onClose={closeMenu} activeId={currentId} />
     </>
   )
 }

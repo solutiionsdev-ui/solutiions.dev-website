@@ -22,7 +22,15 @@ import type { EnquiryState } from '@/lib/schema'
  * React Hook Form owns the values, so a failed submit never loses what the
  * visitor typed.
  */
-export function ContactForm({ onSuccess }: { onSuccess?: () => void }) {
+export function ContactForm({
+  onSuccess,
+  idPrefix = '',
+}: {
+  onSuccess?: () => void
+  /** Prefix for field ids, for pages that can show two copies of the form. */
+  idPrefix?: string
+}) {
+  const fieldId = (field: string) => `${idPrefix}${field}`
   const [serverState, setServerState] = useState<EnquiryState>({ status: 'idle' })
 
   const {
@@ -71,21 +79,21 @@ export function ContactForm({ onSuccess }: { onSuccess?: () => void }) {
   }
 
   const describedBy = (field: keyof EnquiryInput) =>
-    errors[field] ? `${field}-error` : undefined
+    errors[field] ? `${fieldId(field)}-error` : undefined
 
   return (
     <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
       {/* Honeypot. Hidden from everyone, including AT — a real person must never
           be able to reach or fill this. */}
       <div aria-hidden="true" className="hidden">
-        <label htmlFor="website">Website</label>
-        <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register('website')} />
+        <label htmlFor={fieldId('website')}>Website</label>
+        <input id={fieldId('website')} type="text" tabIndex={-1} autoComplete="off" {...register('website')} />
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <Field id="name" label="Name" required error={errors.name?.message}>
+        <Field id={fieldId('name')} label="Name" required error={errors.name?.message}>
           <input
-            id="name"
+            id={fieldId('name')}
             type="text"
             autoComplete="name"
             aria-invalid={Boolean(errors.name)}
@@ -95,9 +103,9 @@ export function ContactForm({ onSuccess }: { onSuccess?: () => void }) {
           />
         </Field>
 
-        <Field id="email" label="Email" required error={errors.email?.message}>
+        <Field id={fieldId('email')} label="Email" required error={errors.email?.message}>
           <input
-            id="email"
+            id={fieldId('email')}
             type="email"
             autoComplete="email"
             aria-invalid={Boolean(errors.email)}
@@ -108,9 +116,9 @@ export function ContactForm({ onSuccess }: { onSuccess?: () => void }) {
         </Field>
       </div>
 
-      <Field id="company" label="Company" error={errors.company?.message}>
+      <Field id={fieldId('company')} label="Company" error={errors.company?.message}>
         <input
-          id="company"
+          id={fieldId('company')}
           type="text"
           autoComplete="organization"
           aria-invalid={Boolean(errors.company)}
@@ -121,9 +129,9 @@ export function ContactForm({ onSuccess }: { onSuccess?: () => void }) {
       </Field>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <Field id="projectType" label="Project type" required error={errors.projectType?.message}>
+        <Field id={fieldId('projectType')} label="Project type" required error={errors.projectType?.message}>
           <select
-            id="projectType"
+            id={fieldId('projectType')}
             defaultValue=""
             aria-invalid={Boolean(errors.projectType)}
             aria-describedby={describedBy('projectType')}
@@ -141,9 +149,9 @@ export function ContactForm({ onSuccess }: { onSuccess?: () => void }) {
           </select>
         </Field>
 
-        <Field id="budget" label="Budget range" required error={errors.budget?.message}>
+        <Field id={fieldId('budget')} label="Budget range" required error={errors.budget?.message}>
           <select
-            id="budget"
+            id={fieldId('budget')}
             defaultValue=""
             aria-invalid={Boolean(errors.budget)}
             aria-describedby={describedBy('budget')}
@@ -162,9 +170,9 @@ export function ContactForm({ onSuccess }: { onSuccess?: () => void }) {
         </Field>
       </div>
 
-      <Field id="message" label="Message" required error={errors.message?.message}>
+      <Field id={fieldId('message')} label="Message" required error={errors.message?.message}>
         <textarea
-          id="message"
+          id={fieldId('message')}
           rows={6}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={describedBy('message')}
@@ -187,7 +195,7 @@ export function ContactForm({ onSuccess }: { onSuccess?: () => void }) {
           aria-busy={isSubmitting}
           className="type-button inline-flex h-11 cursor-pointer items-center justify-center rounded-pill bg-accent px-6 text-on-accent transition-[background-color,opacity] duration-(--dur-base) ease-(--ease-out-quart) hover:bg-fg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isSubmitting ? 'SENDING…' : 'SEND ENQUIRY'}
+          {isSubmitting ? 'Sending…' : 'Send enquiry'}
         </button>
 
         <p className="type-meta text-fg-subtle">
